@@ -1,0 +1,17 @@
+- name: Deploy Calculator Application
+  hosts: remote_server
+  become: yes
+  tasks:
+    - name: Pull Docker Image
+      command: docker pull mohit082003/calculator:latest
+
+    - name: Stop existing container
+      command: docker stop calculator || true
+      ignore_errors: yes
+
+    - name: Remove old container
+      command: docker rm calculator || true
+      ignore_errors: yes
+
+    - name: Run Container
+      command: docker run -d --name calculator -it -p 9090:8080 mohit082003/calculator:latest
